@@ -25,14 +25,19 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("code=%v\n", code)
 
-	accessCode, status := spotify.GetSpotifyAccessCode(code)
-
-	if !status {
-		log.Println("Unable to get spotify user.")
+	if len(code) == 0 {
+		log.Println("Code is empty.")
+		enc.Encode("Code is empty")
 	} else {
-		response, _ := spotify.GetUserDetail(accessCode)
+		accessCode, status := spotify.GetSpotifyAccessCode(code)
 
-		enc.Encode(response)
+		if !status {
+			log.Println("Unable to get spotify user.")
+		} else {
+			response, _ := spotify.GetUserDetail(accessCode)
+
+			enc.Encode(response)
+		}
 	}
 
 }
