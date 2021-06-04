@@ -25,7 +25,7 @@ func getAuthHeader(prefix string) string {
 	return prefix + " " + sEnc
 }
 
-func GetSpotifyAccessCode(code string) (string, bool) {
+func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 
 	authHeader := getAuthHeader("Basic")
 
@@ -51,7 +51,7 @@ func GetSpotifyAccessCode(code string) (string, bool) {
 
 	if err != nil {
 		log.Println(err)
-		return "", false
+		return models.AccessTokenResponse{}, false
 	}
 
 	d, _ := ioutil.ReadAll(resp.Body)
@@ -75,11 +75,11 @@ func GetSpotifyAccessCode(code string) (string, bool) {
 			log.Printf("syntax error at byte offset %d", e.Offset)
 		}
 		log.Printf("response: %q", d)
-		return "", false
+		return models.AccessTokenResponse{}, false
 	}
 
 	fmt.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
 
-	return accessTokenResponse.SpotifyAccessToken, true
+	return accessTokenResponse, true
 
 }

@@ -13,6 +13,7 @@ func InitRouter() {
 	r := mux.NewRouter()
 
 	r.HandleFunc(prefix+"/getSpotifyUser", getSpotifyUserHandler)
+	r.HandleFunc(prefix+"/getAuthToken", GetSpotifyAccessCodeHandler)
 
 	http.Handle("/", r)
 

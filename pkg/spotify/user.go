@@ -10,7 +10,7 @@ import (
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 )
 
-func GetUserDetail(accessCode string) (models.SpotifyProfile, bool) {
+func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 
 	// resp, err := http.Get("https://api.spotify.com/v1/me")
 
@@ -22,7 +22,7 @@ func GetUserDetail(accessCode string) (models.SpotifyProfile, bool) {
 		return models.SpotifyProfile{}, false
 	}
 
-	req.Header.Add("Authorization", "Bearer "+accessCode)
+	req.Header.Add("Authorization", "Bearer "+accessToken)
 
 	resp, err := client.Do(req)
 
