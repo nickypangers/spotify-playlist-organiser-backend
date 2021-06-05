@@ -66,3 +66,34 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	accessToken := r.FormValue("accessToken")
+	userId := r.FormValue("userId")
+
+	// code := r.URL.Query().Get("code")
+
+	fmt.Printf("accessToken=%v\n", accessToken)
+	fmt.Printf("userId=%v\n", userId)
+
+	if len(accessToken) == 0 {
+		log.Println("Code is empty.")
+		enc.Encode("Code is empty")
+	} else if len(userId) == 0 {
+		log.Println("userId is empty.")
+		enc.Encode("userId is empty")
+	} else {
+		response, _ := spotify.GetUserPlaylists(userId, accessToken)
+
+		enc.Encode(response)
+	}
+}

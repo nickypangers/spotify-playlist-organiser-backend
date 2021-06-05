@@ -54,3 +54,44 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 	return spotifyProfile, true
 
 }
+
+func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, bool) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://api.spotify.com/v1/users/"+userId+"/playlists", nil)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyUserPlaylist{}, false
+	}
+
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyUserPlaylist{}, false
+	}
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	// fmt.Println(string(respBody))
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyUserPlaylist{}, false
+	}
+
+	var spotifyUserPlaylist models.SpotifyUserPlaylist
+
+	err = json.Unmarshal(respBody, &spotifyUserPlaylist)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyUserPlaylist{}, false
+	}
+
+	fmt.Println(spotifyUserPlaylist)
+
+	return spotifyUserPlaylist, true
+}
