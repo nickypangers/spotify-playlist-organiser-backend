@@ -15,6 +15,7 @@ func InitRouter() {
 	r.HandleFunc(prefix+"/getSpotifyUser", getSpotifyUserHandler)
 	r.HandleFunc(prefix+"/getAuthToken", GetSpotifyAccessCodeHandler)
 	r.HandleFunc(prefix+"/getSpotifyUserPlaylist", getSpotifyPlaylistHandler)
+	r.HandleFunc(prefix+"/getSpotifyPlaylistItemList", getSpotifyPlaylistItemListHandler)
 
 	http.Handle("/", r)
 
