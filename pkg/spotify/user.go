@@ -90,7 +90,7 @@ func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, b
 		return models.SpotifyUserPlaylist{}, false
 	}
 
-	log.Println(spotifyUserPlaylist)
+	// log.Println(spotifyUserPlaylist)
 
 	return spotifyUserPlaylist, true
 }

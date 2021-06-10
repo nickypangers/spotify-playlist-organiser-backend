@@ -55,7 +55,7 @@ func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 
 	d, _ := ioutil.ReadAll(resp.Body)
 
-	// log.Println(string(d))
+	log.Println(string(d))
 
 	// return string(d)
 
@@ -77,7 +77,7 @@ func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 		return models.AccessTokenResponse{}, false
 	}
 
-	log.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
+	// log.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
 
 	return accessTokenResponse, true
 

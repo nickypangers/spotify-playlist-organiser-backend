@@ -20,11 +20,11 @@ func SearchItem(q, t, accessToken string) (models.SpotifySearchItemResult, bool)
 		return models.SpotifySearchItemResult{}, false
 	}
 
-	q = strings.ReplaceAll(q, " ", "%20")
+	q = strings.ReplaceAll(q, " ", "+")
 
 	qs := req.URL.Query()
 
-	qs.Add("q", q)
+	qs.Add("q", "\""+q+"\"")
 
 	qs.Add("type", t)
 
@@ -33,8 +33,6 @@ func SearchItem(q, t, accessToken string) (models.SpotifySearchItemResult, bool)
 	req.URL.RawQuery = qs.Encode()
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
-
-	// log.Println(req.URL.String())
 
 	resp, err := client.Do(req)
 
@@ -61,7 +59,7 @@ func SearchItem(q, t, accessToken string) (models.SpotifySearchItemResult, bool)
 		return models.SpotifySearchItemResult{}, false
 	}
 
-	log.Println(spotifySearchItemResult)
+	// log.Println(spotifySearchItemResult)
 
 	return spotifySearchItemResult, true
 
