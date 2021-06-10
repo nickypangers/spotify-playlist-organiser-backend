@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/server"
 )
 
 func main() {
-	fmt.Println("hello world")
+	log.Println("hello world")
 
 	server.InitRouter()
 

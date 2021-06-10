@@ -2,7 +2,6 @@ package spotify
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -33,7 +32,7 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 
-	// fmt.Println(string(respBody))
+	// log.Println(string(respBody))
 
 	if err != nil {
 		log.Println(err)
@@ -49,7 +48,7 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 		return models.SpotifyProfile{}, false
 	}
 
-	fmt.Println(spotifyProfile)
+	// log.Println(spotifyProfile)
 
 	return spotifyProfile, true
 
@@ -75,7 +74,7 @@ func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, b
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 
-	// fmt.Println(string(respBody))
+	// log.Println(string(respBody))
 
 	if err != nil {
 		log.Println(err)
@@ -91,7 +90,7 @@ func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, b
 		return models.SpotifyUserPlaylist{}, false
 	}
 
-	fmt.Println(spotifyUserPlaylist)
+	log.Println(spotifyUserPlaylist)
 
 	return spotifyUserPlaylist, true
 }

@@ -3,7 +3,6 @@ package spotify
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -16,11 +15,11 @@ import (
 func getAuthHeader(prefix string) string {
 	data := credential.ClientID + ":" + credential.ClientSecret
 
-	fmt.Println(data)
+	log.Println(data)
 
 	sEnc := base64.StdEncoding.EncodeToString([]byte(data))
 
-	fmt.Println(sEnc)
+	log.Println(sEnc)
 
 	return prefix + " " + sEnc
 }
@@ -56,7 +55,7 @@ func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 
 	d, _ := ioutil.ReadAll(resp.Body)
 
-	// fmt.Println(string(d))
+	// log.Println(string(d))
 
 	// return string(d)
 
@@ -78,7 +77,7 @@ func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 		return models.AccessTokenResponse{}, false
 	}
 
-	fmt.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
+	log.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
 
 	return accessTokenResponse, true
 

@@ -2,14 +2,13 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
 
-func GetSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
+func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	w.Header().Set("Content-Type", "application/json")
@@ -22,7 +21,7 @@ func GetSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	fmt.Printf("code=%v\n", code)
+	log.Printf("code=%v\n", code)
 
 	if len(code) == 0 {
 		log.Println("Code is empty.")
@@ -54,7 +53,7 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	fmt.Printf("accessToken=%v\n", accessToken)
+	log.Printf("accessToken=%v\n", accessToken)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
@@ -82,8 +81,8 @@ func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	fmt.Printf("accessToken=%v\n", accessToken)
-	fmt.Printf("userId=%v\n", userId)
+	log.Printf("accessToken=%v\n", accessToken)
+	log.Printf("userId=%v\n", userId)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
@@ -114,9 +113,9 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	fmt.Printf("accessToken=%v\n", accessToken)
-	fmt.Printf("playlistId=%v\n", playlistId)
-	fmt.Printf("country=%v\n", country)
+	log.Printf("accessToken=%v\n", accessToken)
+	log.Printf("playlistId=%v\n", playlistId)
+	log.Printf("country=%v\n", country)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
@@ -132,4 +131,34 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
 		enc.Encode(response)
 	}
+}
+
+func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	q := r.FormValue("q")
+	t := r.FormValue("t")
+	accessToken := r.FormValue("accessToken")
+
+	if len(q) == 0 {
+		log.Println("q is empty")
+		enc.Encode("q is empty")
+	} else if len(t) == 0 {
+		log.Println("t is empty")
+		enc.Encode("t is empty")
+	} else if len(accessToken) == 0 {
+		log.Println("accessToken is empty")
+		enc.Encode("accessToken is empty")
+	} else {
+		response, _ := spotify.SearchItem(q, t, accessToken)
+
+		enc.Encode(response)
+	}
+
 }

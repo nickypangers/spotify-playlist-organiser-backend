@@ -2,7 +2,6 @@ package spotify
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -44,7 +43,7 @@ func GetPlaylistItemList(playlistId, country, accessToken string) (models.Spotif
 		return models.SpotifyPlaylistItemList{}, false
 	}
 
-	fmt.Println(spotifyPlaylistItemList)
+	log.Println(spotifyPlaylistItemList)
 
 	return spotifyPlaylistItemList, true
 
