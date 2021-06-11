@@ -18,16 +18,21 @@ func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 	enc.SetEscapeHTML(false)
 
 	code := r.FormValue("code")
+	grantType := r.FormValue("grantType")
 
 	// code := r.URL.Query().Get("code")
 
 	log.Printf("code=%v\n", code)
+	log.Printf("grantType=%v\n", grantType)
 
 	if len(code) == 0 {
-		log.Println("Code is empty.")
-		enc.Encode("accessToken is empty")
+		log.Println("code is empty.")
+		enc.Encode("code is empty")
+	} else if len(grantType) == 0 {
+		log.Println("grantType is empty")
+		enc.Encode("grantType is empty")
 	} else {
-		accessCode, status := spotify.GetSpotifyAccessCode(code)
+		accessCode, status := spotify.GetSpotifyAccessCode(grantType, code)
 
 		if !status {
 			log.Println("Unable to get spotify user.")

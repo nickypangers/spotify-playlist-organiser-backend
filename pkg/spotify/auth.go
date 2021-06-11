@@ -24,7 +24,7 @@ func getAuthHeader(prefix string) string {
 	return prefix + " " + sEnc
 }
 
-func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
+func GetSpotifyAccessCode(grantType, code string) (models.AccessTokenResponse, bool) {
 
 	authHeader := getAuthHeader("Basic")
 
@@ -36,7 +36,7 @@ func GetSpotifyAccessCode(code string) (models.AccessTokenResponse, bool) {
 
 	// set POST param
 	q := url.Values{}
-	q.Add("grant_type", "authorization_code")
+	q.Add("grant_type", grantType)
 	q.Add("code", code)
 	q.Add("redirect_uri", credential.RedirectUrl)
 
