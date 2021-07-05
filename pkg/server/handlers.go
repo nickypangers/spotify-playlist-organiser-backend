@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
@@ -166,4 +167,23 @@ func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
 		enc.Encode(response)
 	}
 
+}
+
+func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Conrol-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	userId := r.FormValue("userID")
+	playlistName := r.FormValue("playlistName")
+	isPublic, _ := strconv.ParseBool(r.FormValue("isPublic"))
+	accessToken := r.FormValue("accessToken")
+
+	response, _ := spotify.CreateNewPlaylist(userId, playlistName, isPublic, accessToken)
+
+	enc.Encode(response)
 }
