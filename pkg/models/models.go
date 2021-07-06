@@ -37,6 +37,10 @@ type SpotifyProfile struct {
 	Product string `json:"product"`
 	Type    string `json:"type"`
 	URI     string `json:"uri"`
+	Error   struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }
 
 type SpotifyUserPlaylist struct {
@@ -73,6 +77,10 @@ type SpotifyUserPlaylist struct {
 	Offset   int         `json:"offset"`
 	Previous interface{} `json:"previous"`
 	Total    int         `json:"total"`
+	Error    struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }
 
 type SpotifyPlaylistItemList struct {
@@ -152,6 +160,10 @@ type SpotifyPlaylistItemList struct {
 	Offset   int         `json:"offset"`
 	Previous interface{} `json:"previous"`
 	Total    int         `json:"total"`
+	Error    struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }
 
 type SpotifySearchItemResult struct {
@@ -253,6 +265,10 @@ type SpotifySearchItemResult struct {
 		Previous interface{} `json:"previous"`
 		Total    int         `json:"total"`
 	} `json:"tracks"`
+	Error struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }
 
 type SpotifyCreatePlaylistResult struct {
@@ -289,6 +305,10 @@ type SpotifyCreatePlaylistResult struct {
 		Previous interface{}   `json:"previous"`
 		Total    int           `json:"total"`
 	} `json:"tracks"`
-	Type string `json:"type"`
-	URI  string `json:"uri"`
+	Type  string `json:"type"`
+	URI   string `json:"uri"`
+	Error struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }

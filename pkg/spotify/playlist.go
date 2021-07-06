@@ -3,10 +3,10 @@ package spotify
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 )
@@ -51,14 +51,27 @@ func GetPlaylistItemList(playlistId, country, accessToken string) (models.Spotif
 
 }
 
-func CreateNewPlaylist(userId, playlistName string, isPublic bool, accessToken string) (models.SpotifyCreatePlaylistResult, bool) {
+func CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, description, accessToken string) (models.SpotifyCreatePlaylistResult, bool) {
 
 	client := &http.Client{}
 
 	requestBody, err := json.Marshal(map[string]string{
-		"name":   playlistName,
-		"public": strconv.FormatBool(isPublic),
+		"name":          playlistName,
+		"public":        isPublic,
+		"collaborative": isCollaborative,
+		"description":   description,
 	})
+
+	// data := url.Values{}
+
+	// data.Set("name", playlistName)
+	// data.Set("public", isPublic)
+	// data.Set("collaborative", isCollaborative)
+	// data.Set("description", description)
+
+	// fmt.Println(data)
+
+	// b := bytes.NewBufferString(data.Encode())
 
 	if err != nil {
 		log.Println(err)
@@ -67,13 +80,13 @@ func CreateNewPlaylist(userId, playlistName string, isPublic bool, accessToken s
 
 	req, err := http.NewRequest("POST", "https://api.spotify.com/v1/users/"+userId+"/playlists", bytes.NewBuffer(requestBody))
 
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+
 	if err != nil {
 		log.Println(err)
 		return models.SpotifyCreatePlaylistResult{}, false
 	}
-
-	req.Header.Add("content-Type", "application/json")
-	req.Header.Add("Authorization", "Bearer "+accessToken)
 
 	resp, err := client.Do(req)
 
@@ -83,6 +96,8 @@ func CreateNewPlaylist(userId, playlistName string, isPublic bool, accessToken s
 	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(string(respBody))
 
 	if err != nil {
 		log.Println(err)

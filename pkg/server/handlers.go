@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
@@ -180,10 +179,12 @@ func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.FormValue("userID")
 	playlistName := r.FormValue("playlistName")
-	isPublic, _ := strconv.ParseBool(r.FormValue("isPublic"))
+	isPublic := r.FormValue("isPublic")
+	isCollaborative := r.FormValue("isCollaborative")
+	description := r.FormValue("description")
 	accessToken := r.FormValue("accessToken")
 
-	response, _ := spotify.CreateNewPlaylist(userId, playlistName, isPublic, accessToken)
+	response, _ := spotify.CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, description, accessToken)
 
 	enc.Encode(response)
 }
