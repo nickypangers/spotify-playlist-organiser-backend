@@ -59,7 +59,7 @@ func SearchItem(q, t, accessToken string) (models.SpotifySearchItemResult, bool)
 		return models.SpotifySearchItemResult{}, false
 	}
 
-	// log.Println(spotifySearchItemResult)
+	log.Printf("%s query song: q = %s, t = %s", accessToken, q, t)
 
 	return spotifySearchItemResult, true
 

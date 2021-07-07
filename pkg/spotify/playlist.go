@@ -3,7 +3,6 @@ package spotify
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -45,7 +44,7 @@ func GetPlaylistItemList(playlistId, country, accessToken string) (models.Spotif
 		return models.SpotifyPlaylistItemList{}, false
 	}
 
-	log.Println(spotifyPlaylistItemList)
+	log.Printf("%s get playlist item list: %s", accessToken, playlistId)
 
 	return spotifyPlaylistItemList, true
 
@@ -61,17 +60,6 @@ func CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, descript
 		"collaborative": isCollaborative,
 		"description":   description,
 	})
-
-	// data := url.Values{}
-
-	// data.Set("name", playlistName)
-	// data.Set("public", isPublic)
-	// data.Set("collaborative", isCollaborative)
-	// data.Set("description", description)
-
-	// fmt.Println(data)
-
-	// b := bytes.NewBufferString(data.Encode())
 
 	if err != nil {
 		log.Println(err)
@@ -97,8 +85,6 @@ func CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, descript
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Println(string(respBody))
-
 	if err != nil {
 		log.Println(err)
 		return models.SpotifyCreatePlaylistResult{}, false
@@ -112,6 +98,8 @@ func CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, descript
 		log.Println(err)
 		return models.SpotifyCreatePlaylistResult{}, false
 	}
+
+	log.Printf("%s created new playlist: %s", accessToken, playlistName)
 
 	return spotifyCreatePlaylistResult, true
 

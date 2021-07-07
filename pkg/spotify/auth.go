@@ -55,18 +55,9 @@ func GetSpotifyAccessCode(grantType, code string) (models.AccessTokenResponse, b
 
 	d, _ := ioutil.ReadAll(resp.Body)
 
-	log.Println(string(d))
-
-	// return string(d)
-
 	var accessTokenResponse models.AccessTokenResponse
 
 	err = json.Unmarshal(d, &accessTokenResponse)
-
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return "", false
-	// }
 
 	if err != nil {
 		log.Printf("error decoding response: %v", err)
@@ -76,8 +67,6 @@ func GetSpotifyAccessCode(grantType, code string) (models.AccessTokenResponse, b
 		log.Printf("response: %q", d)
 		return models.AccessTokenResponse{}, false
 	}
-
-	// log.Printf("accessToken=%v\n", accessTokenResponse.SpotifyAccessToken)
 
 	return accessTokenResponse, true
 

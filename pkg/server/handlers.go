@@ -22,8 +22,8 @@ func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	log.Printf("code=%v\n", code)
-	log.Printf("grantType=%v\n", grantType)
+	// log.Printf("code=%v\n", code)
+	// log.Printf("grantType=%v\n", grantType)
 
 	if len(code) == 0 {
 		log.Println("code is empty.")
@@ -86,8 +86,8 @@ func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	log.Printf("accessToken=%v\n", accessToken)
-	log.Printf("userId=%v\n", userId)
+	// log.Printf("accessToken=%v\n", accessToken)
+	// log.Printf("userId=%v\n", userId)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
@@ -118,9 +118,9 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	log.Printf("accessToken=%v\n", accessToken)
-	log.Printf("playlistId=%v\n", playlistId)
-	log.Printf("country=%v\n", country)
+	// log.Printf("accessToken=%v\n", accessToken)
+	// log.Printf("playlistId=%v\n", playlistId)
+	// log.Printf("country=%v\n", country)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
