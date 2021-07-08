@@ -312,3 +312,8 @@ type SpotifyCreatePlaylistResult struct {
 		Message string `json:"message"`
 	} `json:"error"`
 }
+
+type SpotifyUnfollowPlaylistResult struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
+}

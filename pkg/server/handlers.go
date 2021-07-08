@@ -169,7 +169,7 @@ func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Conrol-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -187,4 +187,22 @@ func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 	response, _ := spotify.CreateNewPlaylist(userId, playlistName, isPublic, isCollaborative, description, accessToken)
 
 	enc.Encode(response)
+}
+
+func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	playlistId := r.FormValue("playlistID")
+	accessToken := r.FormValue("accessToken")
+
+	response, _ := spotify.UnfollowPlaylist(playlistId, accessToken)
+
+	enc.Encode(response)
+
 }
