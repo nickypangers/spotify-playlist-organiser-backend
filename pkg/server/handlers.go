@@ -8,7 +8,7 @@ import (
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
 
-func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
+func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	w.Header().Set("Content-Type", "application/json")
@@ -20,11 +20,6 @@ func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 	code := r.FormValue("code")
 	grantType := r.FormValue("grantType")
 
-	// code := r.URL.Query().Get("code")
-
-	// log.Printf("code=%v\n", code)
-	// log.Printf("grantType=%v\n", grantType)
-
 	if len(code) == 0 {
 		log.Println("code is empty.")
 		enc.Encode("code is empty")
@@ -32,16 +27,37 @@ func getSpotifyAccessCodeHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("grantType is empty")
 		enc.Encode("grantType is empty")
 	} else {
-		accessCode, status := spotify.GetSpotifyAccessCode(grantType, code)
+		accessCode, status := spotify.GetSpotifyAccessToken(grantType, code)
 
 		if !status {
 			log.Println("Unable to get spotify user.")
 		} else {
-			// response, _ := spotify.GetUserDetail(accessCode)
 
 			enc.Encode(accessCode)
 		}
 	}
+}
+
+func getRefreshedAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	refreshToken := r.FormValue("refreshToken")
+
+	if len(refreshToken) == 0 {
+		log.Println("refreshToken is empty")
+		enc.Encode("refreshToken is empty")
+	} else {
+		response, _ := spotify.GetRefreshedAccessToken(refreshToken)
+
+		enc.Encode(response)
+	}
+
 }
 
 func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +74,7 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	// code := r.URL.Query().Get("code")
 
-	log.Printf("accessToken=%v\n", accessToken)
+	// log.Printf("accessToken=%v\n", accessToken)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")

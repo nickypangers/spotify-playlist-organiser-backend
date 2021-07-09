@@ -13,7 +13,8 @@ func InitRouter() {
 	r := mux.NewRouter()
 
 	r.HandleFunc(prefix+"/getSpotifyUser", getSpotifyUserHandler)
-	r.HandleFunc(prefix+"/getAuthToken", getSpotifyAccessCodeHandler)
+	r.HandleFunc(prefix+"/getAccessToken", GetSpotifyAccessTokenHandler)
+	r.HandleFunc(prefix+"/getRefreshedAccessToken", getRefreshedAccessTokenHandler)
 	r.HandleFunc(prefix+"/getSpotifyUserPlaylist", getSpotifyPlaylistHandler)
 	r.HandleFunc(prefix+"/getSpotifyPlaylistItemList", getSpotifyPlaylistItemListHandler)
 	r.HandleFunc(prefix+"/searchItem", getSpotifySearchItemResultHandler)
