@@ -129,7 +129,9 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 	enc.SetEscapeHTML(false)
 
 	playlistId := r.FormValue("playlistId")
-	country := r.FormValue("country")
+	offset := r.FormValue("offset")
+	limit := r.FormValue("limit")
+	// country := r.FormValue("country")
 	accessToken := r.FormValue("accessToken")
 
 	// code := r.URL.Query().Get("code")
@@ -144,11 +146,8 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 	} else if len(playlistId) == 0 {
 		log.Println("playlistId is empty.")
 		enc.Encode("playlistId is empty")
-	} else if len(country) == 0 {
-		log.Println("country is empty.")
-		enc.Encode("country is empty")
 	} else {
-		response, _ := spotify.GetPlaylistItemList(playlistId, country, accessToken)
+		response, _ := spotify.GetPlaylistItemList(playlistId, offset, limit, accessToken)
 
 		enc.Encode(response)
 	}

@@ -6,11 +6,12 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 )
 
-func GetPlaylistItemList(playlistId, country, accessToken string) (models.SpotifyPlaylistItemList, bool) {
+func GetPlaylistItemList(playlistId, offset, limit, accessToken string) (models.SpotifyPlaylistItemList, bool) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.spotify.com/v1/playlists/"+playlistId+"/tracks", nil)
 
@@ -18,6 +19,12 @@ func GetPlaylistItemList(playlistId, country, accessToken string) (models.Spotif
 		log.Println(err)
 		return models.SpotifyPlaylistItemList{}, false
 	}
+
+	q := url.Values{}
+	q.Add("offset", offset)
+	q.Add("limit", limit)
+
+	req.URL.RawQuery = q.Encode()
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
 
