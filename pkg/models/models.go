@@ -16,7 +16,7 @@ type AccessTokenResponse struct {
 	Scope              string `json:"scope"`
 }
 
-type SpotifyProfile struct {
+type SpotifyProfileResponse struct {
 	Country      string `json:"country"`
 	DisplayName  string `json:"display_name"`
 	Email        string `json:"email"`
@@ -43,7 +43,7 @@ type SpotifyProfile struct {
 	} `json:"error"`
 }
 
-type SpotifyUserPlaylist struct {
+type SpotifyUserPlaylistResponse struct {
 	Href  string `json:"href"`
 	Items []struct {
 		Collaborative bool `json:"collaborative"`
@@ -83,7 +83,7 @@ type SpotifyUserPlaylist struct {
 	} `json:"error"`
 }
 
-type SpotifyPlaylistItemList struct {
+type SpotifyPlaylistItemListResponse struct {
 	Href  string `json:"href"`
 	Items []struct {
 		AddedAt time.Time `json:"added_at"`
@@ -166,7 +166,7 @@ type SpotifyPlaylistItemList struct {
 	} `json:"error"`
 }
 
-type SpotifySearchItemResult struct {
+type SpotifySearchItemResponse struct {
 	Artists struct {
 		Href  string `json:"href"`
 		Items []struct {
@@ -271,7 +271,7 @@ type SpotifySearchItemResult struct {
 	} `json:"error"`
 }
 
-type SpotifyCreatePlaylistResult struct {
+type SpotifyCreatePlaylistResponse struct {
 	Collaborative bool        `json:"collaborative"`
 	Description   interface{} `json:"description"`
 	ExternalUrls  struct {
@@ -313,7 +313,15 @@ type SpotifyCreatePlaylistResult struct {
 	} `json:"error"`
 }
 
-type SpotifyUnfollowPlaylistResult struct {
+type SpotifyUnfollowPlaylistResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
+}
+
+type SpotifyReorderPlaylistItemResponse struct {
+	SnapshotID string `json:"snapshot_id"`
+	Error      struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
 }

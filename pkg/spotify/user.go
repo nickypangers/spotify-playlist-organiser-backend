@@ -9,7 +9,7 @@ import (
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 )
 
-func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
+func GetUserDetail(accessToken string) (models.SpotifyProfileResponse, bool) {
 
 	// resp, err := http.Get("https://api.spotify.com/v1/me")
 
@@ -18,7 +18,7 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyProfile{}, false
+		return models.SpotifyProfileResponse{}, false
 	}
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
@@ -27,7 +27,7 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyProfile{}, false
+		return models.SpotifyProfileResponse{}, false
 	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
@@ -36,31 +36,31 @@ func GetUserDetail(accessToken string) (models.SpotifyProfile, bool) {
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyProfile{}, false
+		return models.SpotifyProfileResponse{}, false
 	}
 
-	var spotifyProfile models.SpotifyProfile
+	var spotifyProfileResponse models.SpotifyProfileResponse
 
-	err = json.Unmarshal(respBody, &spotifyProfile)
+	err = json.Unmarshal(respBody, &spotifyProfileResponse)
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyProfile{}, false
+		return models.SpotifyProfileResponse{}, false
 	}
 
-	// log.Println(spotifyProfile)
+	// log.Println(spotifyProfileResponse)
 
-	return spotifyProfile, true
+	return spotifyProfileResponse, true
 
 }
 
-func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, bool) {
+func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylistResponse, bool) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.spotify.com/v1/users/"+userId+"/playlists", nil)
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyUserPlaylist{}, false
+		return models.SpotifyUserPlaylistResponse{}, false
 	}
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
@@ -69,7 +69,7 @@ func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, b
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyUserPlaylist{}, false
+		return models.SpotifyUserPlaylistResponse{}, false
 	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
@@ -78,19 +78,19 @@ func GetUserPlaylists(userId, accessToken string) (models.SpotifyUserPlaylist, b
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyUserPlaylist{}, false
+		return models.SpotifyUserPlaylistResponse{}, false
 	}
 
-	var spotifyUserPlaylist models.SpotifyUserPlaylist
+	var spotifyUserPlaylistResponse models.SpotifyUserPlaylistResponse
 
-	err = json.Unmarshal(respBody, &spotifyUserPlaylist)
+	err = json.Unmarshal(respBody, &spotifyUserPlaylistResponse)
 
 	if err != nil {
 		log.Println(err)
-		return models.SpotifyUserPlaylist{}, false
+		return models.SpotifyUserPlaylistResponse{}, false
 	}
 
-	// log.Println(spotifyUserPlaylist)
+	// log.Println(spotifyUserPlaylistResponse)
 
-	return spotifyUserPlaylist, true
+	return spotifyUserPlaylistResponse, true
 }

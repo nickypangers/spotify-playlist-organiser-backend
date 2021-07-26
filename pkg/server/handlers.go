@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
@@ -220,4 +221,31 @@ func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	enc.Encode(response)
 
+}
+
+func reorderPlaylistItemHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	playlistId := r.FormValue("playlistID")
+	rangeStartStr := r.FormValue("rangeStart")
+	insertBeforeStr := r.FormValue("insertBefore")
+	rangeLengthStr := r.FormValue("rangeLength")
+	snapshotId := r.FormValue("snapshotID")
+	accessToken := r.FormValue("accessToken")
+
+	log.Printf("range_start=%s\ninsert_before=%s\nrange_length=%s\n", rangeStartStr, insertBeforeStr, rangeLengthStr)
+
+	rangeStart, _ := strconv.Atoi(rangeStartStr)
+	insertBefore, _ := strconv.Atoi(insertBeforeStr)
+	rangeLength, _ := strconv.Atoi(rangeLengthStr)
+
+	response, _ := spotify.ReorderPlaylistItem(rangeStart, insertBefore, rangeLength, playlistId, snapshotId, accessToken)
+
+	enc.Encode(response)
 }
