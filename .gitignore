@@ -1,3 +1,5 @@
+.VSCodeCounter/
+
 cmd/**/spotifyreplaylist-backend.*
 
-pkg/credential/
+pkg/credential/*.go
