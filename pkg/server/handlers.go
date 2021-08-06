@@ -11,11 +11,9 @@ import (
 
 func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	code := r.FormValue("code")
@@ -41,11 +39,9 @@ func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 
 func getRefreshedAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	refreshToken := r.FormValue("refreshToken")
@@ -64,11 +60,9 @@ func getRefreshedAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	accessToken := r.FormValue("accessToken")
@@ -91,11 +85,9 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	accessToken := r.FormValue("accessToken")
@@ -122,11 +114,9 @@ func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	playlistId := r.FormValue("playlistId")
@@ -134,12 +124,6 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 	limit := r.FormValue("limit")
 	// country := r.FormValue("country")
 	accessToken := r.FormValue("accessToken")
-
-	// code := r.URL.Query().Get("code")
-
-	// log.Printf("accessToken=%v\n", accessToken)
-	// log.Printf("playlistId=%v\n", playlistId)
-	// log.Printf("country=%v\n", country)
 
 	if len(accessToken) == 0 {
 		log.Println("accessToken is empty.")
@@ -156,11 +140,9 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	q := r.FormValue("q")
@@ -186,11 +168,9 @@ func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
 
 func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	userId := r.FormValue("userID")
@@ -207,11 +187,9 @@ func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	playlistId := r.FormValue("playlistID")
@@ -225,11 +203,9 @@ func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 func reorderPlaylistItemHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	w.Header().Set("Content-Type", "application/json")
 
 	enc := json.NewEncoder(w)
-
 	enc.SetEscapeHTML(false)
 
 	playlistId := r.FormValue("playlistID")
@@ -239,13 +215,48 @@ func reorderPlaylistItemHandler(w http.ResponseWriter, r *http.Request) {
 	snapshotId := r.FormValue("snapshotID")
 	accessToken := r.FormValue("accessToken")
 
-	log.Printf("range_start=%s\ninsert_before=%s\nrange_length=%s\n", rangeStartStr, insertBeforeStr, rangeLengthStr)
+	// log.Printf("range_start=%s\ninsert_before=%s\nrange_length=%s\n", rangeStartStr, insertBeforeStr, rangeLengthStr)
 
 	rangeStart, _ := strconv.Atoi(rangeStartStr)
 	insertBefore, _ := strconv.Atoi(insertBeforeStr)
 	rangeLength, _ := strconv.Atoi(rangeLengthStr)
 
 	response, _ := spotify.ReorderPlaylistItem(rangeStart, insertBefore, rangeLength, playlistId, snapshotId, accessToken)
+
+	enc.Encode(response)
+}
+
+func getTrackHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+
+	enc.SetEscapeHTML(false)
+
+	id := r.FormValue("id")
+	accessToken := r.FormValue("accessToken")
+
+	response, _ := spotify.GetTrack(id, accessToken)
+
+	enc.Encode(response)
+
+}
+
+func addItemsToPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+	enc.SetEscapeHTML(false)
+
+	playlistId := r.FormValue("playlistId")
+	position := r.FormValue("position")
+	uris := r.FormValue("uris")
+	accessToken := r.FormValue("accessToken")
+
+	response, _ := spotify.AddItemsToPlaylist(playlistId, position, uris, accessToken)
 
 	enc.Encode(response)
 }

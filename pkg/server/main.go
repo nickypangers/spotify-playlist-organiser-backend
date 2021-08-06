@@ -21,6 +21,8 @@ func InitRouter() {
 	r.HandleFunc(prefix+"/createNewPlaylist", createSpotifyNewPlaylistHandler)
 	r.HandleFunc(prefix+"/unfollowPlaylist", unfollowPlaylistHandler)
 	r.HandleFunc(prefix+"/reorderPlaylistItem", reorderPlaylistItemHandler)
+	r.HandleFunc(prefix+"/getTrack", getTrackHandler)
+	r.HandleFunc(prefix+"/addItemsToPlaylist", addItemsToPlaylistHandler)
 
 	http.Handle("/", r)
 
