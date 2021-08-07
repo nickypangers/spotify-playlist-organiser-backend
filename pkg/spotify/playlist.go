@@ -185,8 +185,6 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
 
-	log.Println(req.URL)
-
 	if err != nil {
 		log.Println(err)
 		return models.SpotifyAddItemToPlaylistResponse{}, false
@@ -205,8 +203,6 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 		log.Println(err)
 		return models.SpotifyAddItemToPlaylistResponse{}, false
 	}
-
-	log.Println(string(respBody))
 
 	var spotifyAddItemToPlaylist models.SpotifyAddItemToPlaylistResponse
 
