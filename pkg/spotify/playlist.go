@@ -126,7 +126,7 @@ func ReorderPlaylistItem(rangeStart, insertBefore, rangeLength int, playlistId, 
 		return models.SpotifyReorderPlaylistItemResponse{}, false
 	}
 
-	req, err := http.NewRequest("PUT", "https://api.spotify.com/v1/playlists/3K0P6CWMe5Iy663QVOpF8E/tracks", bytes.NewBuffer(requestBody))
+	req, err := http.NewRequest("PUT", "https://api.spotify.com/v1/playlists/"+playlistId+"/tracks", bytes.NewBuffer(requestBody))
 
 	req.Header.Add("Content-Type", "application/json")
 
@@ -172,7 +172,7 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 
 	client := &http.Client{}
 
-	req, err := http.NewRequest("PUT", "https://api.spotify.com/v1/playlists/3K0P6CWMe5Iy663QVOpF8E/tracks", nil)
+	req, err := http.NewRequest("POST", "https://api.spotify.com/v1/playlists/"+playlistId+"/tracks", nil)
 
 	qs := req.URL.Query()
 
@@ -184,6 +184,8 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 	req.Header.Add("Content-Type", "application/json")
 
 	req.Header.Add("Authorization", "Bearer "+accessToken)
+
+	log.Println(req.URL)
 
 	if err != nil {
 		log.Println(err)
@@ -203,6 +205,8 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 		log.Println(err)
 		return models.SpotifyAddItemToPlaylistResponse{}, false
 	}
+
+	log.Println(string(respBody))
 
 	var spotifyAddItemToPlaylist models.SpotifyAddItemToPlaylistResponse
 
