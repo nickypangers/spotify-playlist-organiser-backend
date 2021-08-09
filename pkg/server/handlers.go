@@ -260,3 +260,19 @@ func addItemsToPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 	enc.Encode(response)
 }
+
+func removeItemsFromPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
+	enc := json.NewEncoder(w)
+	enc.SetEscapeHTML(false)
+
+	playlistId := r.FormValue("playlistId")
+	uri := r.FormValue("uri")
+	accessToken := r.FormValue("accessToken")
+
+	response, _ := spotify.RemoveItemFromPlaylist(playlistId, uri, accessToken)
+
+	enc.Encode(response)
+}

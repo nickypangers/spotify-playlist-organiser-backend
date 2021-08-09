@@ -218,3 +218,66 @@ func AddItemsToPlaylist(playlistId, position, uris, accessToken string) (models.
 	return spotifyAddItemToPlaylist, true
 
 }
+
+func RemoveItemFromPlaylist(playlistId, uri, accessToken string) (models.SpotifyRemoveItemToPlaylistResponse, bool) {
+
+	type Uri struct {
+		Uri string `json:"uri"`
+	}
+
+	type Tracks struct {
+		Tracks []Uri `json:"tracks"`
+	}
+
+	client := &http.Client{}
+
+	uriData := Uri{Uri: uri}
+
+	tracks := Tracks{Tracks: []Uri{uriData}}
+
+	jsonData, err := json.Marshal(tracks)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyRemoveItemToPlaylistResponse{}, false
+	}
+
+	req, err := http.NewRequest("DELETE", "https://api.spotify.com/v1/playlists/"+playlistId+"/tracks", bytes.NewBuffer(jsonData))
+
+	req.Header.Add("Content-Type", "application/json")
+
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyRemoveItemToPlaylistResponse{}, false
+	}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyRemoveItemToPlaylistResponse{}, false
+	}
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyRemoveItemToPlaylistResponse{}, false
+	}
+
+	var spotifyRemoveItemToPlaylistResponse models.SpotifyRemoveItemToPlaylistResponse
+
+	err = json.Unmarshal(respBody, &spotifyRemoveItemToPlaylistResponse)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyRemoveItemToPlaylistResponse{}, false
+	}
+
+	log.Printf("%s removed playlist item: %s from playlist: %s", accessToken, uri, playlistId)
+
+	return spotifyRemoveItemToPlaylistResponse, true
+
+}

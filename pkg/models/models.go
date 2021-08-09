@@ -398,3 +398,11 @@ type SpotifyAddItemToPlaylistResponse struct {
 		Message string `json:"message"`
 	} `json:"error"`
 }
+
+type SpotifyRemoveItemToPlaylistResponse struct {
+	SnapshotID string `json:"snapshot_id"`
+	Error      struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
+}
