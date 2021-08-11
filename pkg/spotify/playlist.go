@@ -11,6 +11,41 @@ import (
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 )
 
+func GetPlaylistDetail(playlistId, accessToken string) (models.SpotifyPlaylistDetailResponse, bool) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://api.spotify.com/v1/playlists/"+playlistId, nil)
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyPlaylistDetailResponse{}, false
+	}
+
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyPlaylistDetailResponse{}, false
+	}
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyPlaylistDetailResponse{}, false
+	}
+
+	var spotifyPlaylistDetailResponse models.SpotifyPlaylistDetailResponse
+
+	err = json.Unmarshal(respBody, &spotifyPlaylistDetailResponse)
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyPlaylistDetailResponse{}, false
+	}
+
+	log.Printf("%s get playlist detail %s", accessToken, playlistId)
+
+	return spotifyPlaylistDetailResponse, true
+}
+
 func GetPlaylistItemList(playlistId, offset, limit, accessToken string) (models.SpotifyPlaylistItemListResponse, bool) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.spotify.com/v1/playlists/"+playlistId+"/tracks", nil)

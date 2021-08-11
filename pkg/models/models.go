@@ -43,6 +43,38 @@ type SpotifyProfileResponse struct {
 	} `json:"error"`
 }
 
+type SpotifyPlaylistDetailResponse struct {
+	Collaborative bool `json:"collaborative"`
+	ExternalUrls  struct {
+		Spotify string `json:"spotify"`
+	} `json:"external_urls"`
+	Href   string        `json:"href"`
+	ID     string        `json:"id"`
+	Images []interface{} `json:"images"`
+	Name   string        `json:"name"`
+	Owner  struct {
+		ExternalUrls struct {
+			Spotify string `json:"spotify"`
+		} `json:"external_urls"`
+		Href string `json:"href"`
+		ID   string `json:"id"`
+		Type string `json:"type"`
+		URI  string `json:"uri"`
+	} `json:"owner"`
+	Public     bool   `json:"public"`
+	SnapshotID string `json:"snapshot_id"`
+	Tracks     struct {
+		Href  string `json:"href"`
+		Total int    `json:"total"`
+	} `json:"tracks"`
+	Type  string `json:"type"`
+	URI   string `json:"uri"`
+	Error struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
+}
+
 type SpotifyUserPlaylistResponse struct {
 	Href  string `json:"href"`
 	Items []struct {
