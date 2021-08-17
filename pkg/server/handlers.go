@@ -9,9 +9,14 @@ import (
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
 
-func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+func setHeaders(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", cors_origin)
 	w.Header().Set("Content-Type", "application/json")
+
+}
+
+func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -38,8 +43,7 @@ func GetSpotifyAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getRefreshedAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -59,8 +63,7 @@ func getRefreshedAccessTokenHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -84,8 +87,7 @@ func getSpotifyUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSpotifyPlaylistDetailHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -113,8 +115,7 @@ func getSpotifyPlaylistDetailHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -142,8 +143,7 @@ func getSpotifyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -168,8 +168,7 @@ func getSpotifyPlaylistItemListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -196,8 +195,7 @@ func getSpotifySearchItemResultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -215,8 +213,7 @@ func createSpotifyNewPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -231,8 +228,7 @@ func unfollowPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func reorderPlaylistItemHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -274,8 +270,7 @@ func getTrackHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addItemsToPlaylistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
@@ -291,8 +286,7 @@ func addItemsToPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func removeItemsFromPlaylistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	setHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
