@@ -14,6 +14,8 @@ type AccessTokenResponse struct {
 	ExpiresIn          int    `json:"expires_in"`
 	RefreshToken       string `json:"refresh_token"`
 	Scope              string `json:"scope"`
+	Error              string `json:"error"`
+	ErrorDescription   string `json:"error_description"`
 }
 
 type SpotifyProfileResponse struct {
