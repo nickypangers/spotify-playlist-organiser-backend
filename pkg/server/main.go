@@ -25,6 +25,7 @@ func InitRouter() {
 	r.HandleFunc(prefix+"/getTrack", getTrackHandler)
 	r.HandleFunc(prefix+"/addItemsToPlaylist", addItemsToPlaylistHandler)
 	r.HandleFunc(prefix+"/removeItemsFromPlaylist", removeItemsFromPlaylistHandler)
+	r.HandleFunc(prefix+"/changePlaylistDetail", changePlaylistDetailHandler)
 
 	http.Handle("/", r)
 

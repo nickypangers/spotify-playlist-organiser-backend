@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/spotify"
 )
 
@@ -298,4 +299,30 @@ func removeItemsFromPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 	response, _ := spotify.RemoveItemFromPlaylist(playlistId, uri, accessToken)
 
 	enc.Encode(response)
+}
+
+func changePlaylistDetailHandler(w http.ResponseWriter, r *http.Request) {
+	setHeaders(w)
+
+	enc := json.NewEncoder(w)
+	enc.SetEscapeHTML(false)
+
+	playlistId := r.FormValue("playlistId")
+	playlistDetail := r.FormValue("playlistDetail")
+	accessToken := r.FormValue("accessToken")
+
+	var jsonData models.PlaylistDetail
+	err := json.Unmarshal([]byte(playlistDetail), &jsonData)
+
+	if err != nil {
+		enc.Encode(models.SpotifyChangePlaylistDetailResponse{Error: struct {
+			Status  int    "json:\"status\""
+			Message string "json:\"message\""
+		}{Status: 400, Message: "Cannot read playlistDetail"}})
+	}
+
+	response, _ := spotify.ChangePlaylistDetail(playlistId, accessToken, jsonData)
+
+	enc.Encode(response)
+
 }

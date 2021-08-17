@@ -6,6 +6,13 @@ type Url struct {
 	Url string `json:"url"`
 }
 
+type PlaylistDetail struct {
+	Name          string `json:"name,omitempty"`
+	Public        bool   `json:"public,omitempty"`
+	Collaborative bool   `json:"collaborative,omitempty"`
+	Description   string `json:"description,omitempty"`
+}
+
 // Spotify Struct
 
 type AccessTokenResponse struct {
@@ -436,6 +443,13 @@ type SpotifyAddItemToPlaylistResponse struct {
 type SpotifyRemoveItemToPlaylistResponse struct {
 	SnapshotID string `json:"snapshot_id"`
 	Error      struct {
+		Status  int    `json:"status"`
+		Message string `json:"message"`
+	} `json:"error"`
+}
+
+type SpotifyChangePlaylistDetailResponse struct {
+	Error struct {
 		Status  int    `json:"status"`
 		Message string `json:"message"`
 	} `json:"error"`
