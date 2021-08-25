@@ -8,8 +8,8 @@ type Url struct {
 
 type PlaylistDetail struct {
 	Name          string `json:"name,omitempty"`
-	Public        bool   `json:"public,omitempty"`
-	Collaborative bool   `json:"collaborative,omitempty"`
+	Public        bool   `json:"public"`
+	Collaborative bool   `json:"collaborative"`
 	Description   string `json:"description,omitempty"`
 }
 

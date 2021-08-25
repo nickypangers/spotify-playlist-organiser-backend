@@ -327,6 +327,8 @@ func ChangePlaylistDetail(playlistId, accessToken string, playlistDetail models.
 		return models.SpotifyChangePlaylistDetailResponse{}, false
 	}
 
+	log.Printf("playlist->playlistDetail: %s", jsonData)
+
 	req, err := http.NewRequest("PUT", "https://api.spotify.com/v1/playlists/"+playlistId, bytes.NewBuffer(jsonData))
 
 	req.Header.Add("Content-Type", "application/json")
@@ -345,33 +347,28 @@ func ChangePlaylistDetail(playlistId, accessToken string, playlistDetail models.
 		return models.SpotifyChangePlaylistDetailResponse{}, false
 	}
 
-	status := resp.Header.Get("Status")
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyChangePlaylistDetailResponse{}, false
+	}
 
 	var spotifyChangePlaylistDetailResponse models.SpotifyChangePlaylistDetailResponse
 
-	if status != "200" {
-		log.Println(err)
+	if len(respBody) == 0 {
+		log.Printf("%s changed playlist detail: %s", accessToken, playlistId)
 
-		respBody, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			log.Println(err)
-			return models.SpotifyChangePlaylistDetailResponse{}, false
-		}
-
-		err = json.Unmarshal(respBody, &spotifyChangePlaylistDetailResponse)
-
-		if err != nil {
-			log.Println(err)
-			return models.SpotifyChangePlaylistDetailResponse{}, false
-		}
-
-		return spotifyChangePlaylistDetailResponse, false
-
+		return spotifyChangePlaylistDetailResponse, true
 	}
 
-	log.Printf("%s changed playlist detail: %s", accessToken, playlistId)
+	err = json.Unmarshal(respBody, &spotifyChangePlaylistDetailResponse)
 
-	return spotifyChangePlaylistDetailResponse, true
+	if err != nil {
+		log.Println(err)
+		return models.SpotifyChangePlaylistDetailResponse{}, false
+	}
+
+	return spotifyChangePlaylistDetailResponse, false
 
 }

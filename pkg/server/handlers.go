@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/nickypangers/spotifyreplaylist-backend/pkg/models"
@@ -311,15 +312,21 @@ func changePlaylistDetailHandler(w http.ResponseWriter, r *http.Request) {
 	playlistDetail := r.FormValue("playlistDetail")
 	accessToken := r.FormValue("accessToken")
 
-	var jsonData models.PlaylistDetail
-	err := json.Unmarshal([]byte(playlistDetail), &jsonData)
+	log.Printf("playlistDetail: %s", playlistDetail)
 
+	params, err := url.ParseQuery(playlistDetail)
 	if err != nil {
 		enc.Encode(models.SpotifyChangePlaylistDetailResponse{Error: struct {
 			Status  int    "json:\"status\""
 			Message string "json:\"message\""
 		}{Status: 400, Message: "Cannot read playlistDetail"}})
+		return
 	}
+
+	isPublic, _ := strconv.ParseBool(params.Get("public"))
+	isCollaborative, _ := strconv.ParseBool(params.Get("collaborative"))
+
+	jsonData := models.PlaylistDetail{Name: params.Get("name"), Public: isPublic, Collaborative: isCollaborative}
 
 	response, _ := spotify.ChangePlaylistDetail(playlistId, accessToken, jsonData)
 
